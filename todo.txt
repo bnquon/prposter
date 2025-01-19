@@ -1,2 +1,2 @@
+Implement login and signup
 Implement oauth with google and github?
-Make separate sign up page
