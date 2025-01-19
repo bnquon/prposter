@@ -4,6 +4,32 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/server'
 
+export async function googleLogin() {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/callback`,
+    },
+  })
+  if (data.url) {
+    redirect('/home')
+  }
+}
+
+export async function githubLogin() {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/callback`,
+    },
+  })
+  if (data.url) {
+    redirect('/home')
+  }
+}
+
 export async function login(formData: FormData) {
   const supabase = await createClient()
 
@@ -19,7 +45,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/home')
 }
 
 export async function signup(formData: FormData) {
