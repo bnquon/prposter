@@ -1,2 +1,3 @@
 Implement login and signup
-Implement oauth with google and github?
+Implement oauth with github?
+Link new table to signup to create profiles 
