@@ -15,13 +15,13 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @GetMapping("/{id}")
-    public boolean isProfileCreated(@PathVariable int id) {
-        return profileService.isProfileCreated(id);
+    @GetMapping
+    public boolean isProfileCreated(@RequestParam String email) {
+        return profileService.isProfileCreated(email);
     }
 
-    @PatchMapping("/{id}")
-    public Profile updateProfile(@PathVariable int id, @RequestBody Profile newProfileInfo) {
-        return profileService.updateProfile(id, newProfileInfo);
+    @PatchMapping()
+    public Profile updateProfile(@RequestBody Profile newProfileInfo) {
+        return profileService.updateProfile(newProfileInfo);
     }
 }

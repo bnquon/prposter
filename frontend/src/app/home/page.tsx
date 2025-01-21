@@ -11,6 +11,7 @@ export default function HomePage() {
 
   // call the backend to get the user email and see if their profile is setup and return bool
   if (user) {
+    console.log(user);
     return <ProfileDetailsModal open={true} setOpen={() => {}} email={user.email ?? ""} />;
   }
 
