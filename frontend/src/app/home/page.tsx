@@ -1,23 +1,36 @@
+import { checkIfProfileCreated } from "@/api/profile";
 import { Loading } from "@/components/loading";
 import ProfileDetailsModal from "@/components/profile-details-modal";
 import { useUser } from "@/hooks/useUser";
+import { useQuery } from "react-query";
 
 export default function HomePage() {
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
-  if (loading) {
-    return <Loading loading={loading} />;
-  }
+  const { data: isProfileCreated, isLoading } = useQuery(
+    ["profileCreated", user?.id],
+    () => checkIfProfileCreated(user!.id),
+    {
+      enabled: !!user?.id,
+    }
+  );
 
-  // call the backend to get the user email and see if their profile is setup and return bool
-  if (user) {
-    console.log(user);
-    return <ProfileDetailsModal open={true} setOpen={() => {}} email={user.email ?? ""} />;
+  // on the modal patch invalidate profilecreated and the modal should close
+
+  if (isLoading || isProfileCreated === undefined) {
+    return <Loading loading={isLoading} />;
   }
 
   return (
-    <main className="flex w-screen h-screen flex-col items-center justify-center">
-      check if logged in and show popup
-    </main>
+    <>
+      <ProfileDetailsModal
+        user_id={user?.id ?? ""}
+        showModal={!isProfileCreated}
+      />
+      
+      <main className="flex w-screen h-screen flex-col items-center justify-center">
+        check if logged in and show popup
+      </main>
+    </>
   );
 }

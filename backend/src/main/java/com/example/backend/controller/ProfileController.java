@@ -4,6 +4,8 @@ import com.example.backend.model.Profile;
 import com.example.backend.service.ProfileService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/profile")
@@ -16,8 +18,8 @@ public class ProfileController {
     }
 
     @GetMapping
-    public boolean isProfileCreated(@RequestParam String email) {
-        return profileService.isProfileCreated(email);
+    public boolean isProfileCreated(@RequestParam UUID user_id) {
+        return profileService.isProfileCreated(user_id);
     }
 
     @PatchMapping()

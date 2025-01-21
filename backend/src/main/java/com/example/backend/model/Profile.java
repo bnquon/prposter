@@ -5,17 +5,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "profiles", schema = "public")
 public class Profile {
     @Id
-    @Column(name = "internal_id")
-    private int id; // managed by the Supabase SQL trigger
+    @Column(name = "user_id")
+    private UUID user_id; // managed by the Supabase SQL trigger
 
     private String email;
     private String username;
     private String age;
     private String weight;
+
+    public UUID getUser_id() {
+        return user_id;
+    }
 
     public void setEmail(String email) {
         this.email = email;
