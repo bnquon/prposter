@@ -16,13 +16,9 @@ export default function HomePage() {
     }
   );
 
-  // on the modal patch invalidate profilecreated and the modal should close
-
   if (isLoading || isProfileCreated === undefined) {
     return <Loading loading={isLoading} />;
   }
-
-  console.log(isProfileCreated);
 
   return (
     <>

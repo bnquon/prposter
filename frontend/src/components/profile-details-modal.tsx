@@ -10,6 +10,10 @@ import {
 import { Label } from "./ui/label";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
+import { toast } from "sonner"
+import { Profile } from "utils/types";
+import { updateProfile } from "@/api/profile";
+import { QueryClient } from "react-query";
 
 type formValues = {
   username: string;
@@ -26,9 +30,16 @@ export default function ProfileDetailsModal({
   user_id,
   showModal,
 }: ProfileDetailsModalProps) {
-  console.log(user_id);
-  const handleSave = (formData: formValues) => {
-    console.log(formData);
+  const queryClient = new QueryClient();
+  const handleSave = async (formData: formValues) => {
+    const data: Profile = { ...formData, user_id };
+    try {
+      await updateProfile(data);
+      queryClient.invalidateQueries(["profileCreated", user_id]);
+      toast("Profile has been updated!");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { register, handleSubmit } = useForm<formValues>();
@@ -63,7 +74,7 @@ export default function ProfileDetailsModal({
                 />
               </div>
               <div className="grid gap-2">
-                <Label>Weight</Label>
+                <Label>Weight (kg)</Label>
                 <Input
                   placeholder="athleticdude3"
                   required
