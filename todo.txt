@@ -1,3 +1,2 @@
-Implement login and signup
-Implement oauth with github?
-Link new table to signup to create profiles 
+Setup posts table and figure out file size limit for uploaded files
+Can also setup s3 

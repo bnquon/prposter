@@ -1,43 +1,77 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import React from "react";
+import { Trash } from "lucide-react";
 
 interface MediaUploadProps {
-  register: any;
-  error: any;
+  selectedFile: File | null;
+  setSelectedFile: (file: File | null) => void;
 }
 
-export default function MediaUpload({ register, error }: MediaUploadProps) {
+export default function MediaUpload({
+  selectedFile,
+  setSelectedFile,
+}: MediaUploadProps) {
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
-        <div className="border-2 border-dashed border-gray-200 rounded-lg flex flex-col gap-1 p-6 items-center">
+        <Label
+          htmlFor="file"
+          className="border-2 border-dashed border-gray-200 rounded-lg flex flex-col gap-1 p-6 items-center"
+        >
           <FileIcon className="w-12 h-12" />
           <span className="text-sm font-medium text-gray-500">
             Drag and drop a file or click to browse
           </span>
           <span className="text-xs text-gray-500">
-            PDF, image, video, or audio
+            Image or video file up to 5MB
           </span>
-        </div>
+        </Label>
         <div className="space-y-2 text-sm">
           <Label htmlFor="file" className="text-sm font-medium">
-            File
+            {selectedFile ? (
+              <div className="flex justify-between">
+                {selectedFile.name}
+                <Trash
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedFile(null);
+                  }}
+                  className="w-4 h-4 cursor-pointer"
+                />
+              </div>
+            ) : (
+              "No file selected"
+            )}
           </Label>
           <Input
-            {...register("file")}
+            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            multiple={false}
             id="file"
             type="file"
             placeholder="File"
-            accept="image/*"
+            accept="image/*, video/*"
+            className="hidden"
           />
         </div>
+
+        {selectedFile &&
+          (selectedFile.type.startsWith("image") ? (
+            <img
+              className="max-w-[200px] h-auto"
+              src={URL.createObjectURL(selectedFile)}
+              alt="Attachment Preview"
+            />
+          ) : (
+            <video width="200" height="300" controls>
+              <source
+                src={URL.createObjectURL(selectedFile)}
+                type="video/mp4"
+              />
+            </video>
+          ))}
       </CardContent>
-      <CardFooter>
-        {error && <p className="text-red-500">{error.message}</p>}
-      </CardFooter>
     </Card>
   );
 }

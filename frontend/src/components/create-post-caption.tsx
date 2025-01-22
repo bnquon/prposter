@@ -32,11 +32,11 @@ export default function CreatePostCaption({
   };
 
   return (
-    <div className="grid w-[350px] gap-2">
+    <div className="grid gap-2">
       <Label htmlFor="message">Caption</Label>
       <Textarea
         {...register("caption")}
-        rows={5}
+        rows={3}
         className="resize-none"
         placeholder="Add your caption here."
         id="message"
@@ -45,9 +45,10 @@ export default function CreatePostCaption({
       <div className="flex gap-2">
         {tags.map((tag: PostTags) => (
           <Badge
-            className="border-[1px] border-gray-200"
+            className="border-[1px] border-gray-200 text-sm"
             onClick={() => handleTagClick(tag)}
             style={{
+              padding: "5px 10px",
               cursor: "pointer",
               backgroundColor: selectedTags.includes(tag) ? "#2563eb" : "white",
               color: selectedTags.includes(tag) ? "white" : "black",
