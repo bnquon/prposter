@@ -9,7 +9,7 @@ import {
   CardContent,
 } from "./ui/card";
 import { Input } from "./ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../../utils/features/auth";
 
 type formValues = {
@@ -18,10 +18,16 @@ type formValues = {
 };
 
 export const SignupForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<formValues>();
 
   const onSubmit = async (data: formValues) => {
-    await signUp(data.email, data.password);
+    try {
+      await signUp(data.email, data.password);
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

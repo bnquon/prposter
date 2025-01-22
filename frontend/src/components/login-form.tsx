@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { githubLogin, googleLogin } from "../../utils/features/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signIn } from "../../utils/features/auth";
 
@@ -24,9 +24,15 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const { register, handleSubmit } = useForm<formValues>();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: formValues) => {
-    await signIn(data.email, data.password);
+    try {
+      await signIn(data.email, data.password);
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

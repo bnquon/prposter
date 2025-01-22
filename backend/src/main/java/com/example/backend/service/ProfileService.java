@@ -14,7 +14,11 @@ public class ProfileService {
 
     public boolean isProfileCreated(UUID user_id) {
         Profile profile = profileRepository.findByUUID(user_id);
-        return !profile.getUsername().isEmpty();
+        if (profile.getUsername() == null) {
+            return false;
+        } else {
+            return !profile.getUsername().isEmpty();
+        }
     }
 
     public Profile updateProfile(Profile newProfileInfo) {

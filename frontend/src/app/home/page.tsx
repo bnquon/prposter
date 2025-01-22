@@ -3,6 +3,7 @@ import { Loading } from "@/components/loading";
 import ProfileDetailsModal from "@/components/profile-details-modal";
 import { useUser } from "@/hooks/useUser";
 import { useQuery } from "react-query";
+import SignOutButton from "@/components/signout-button";
 
 export default function HomePage() {
   const { user } = useUser();
@@ -21,6 +22,8 @@ export default function HomePage() {
     return <Loading loading={isLoading} />;
   }
 
+  console.log(isProfileCreated);
+
   return (
     <>
       <ProfileDetailsModal
@@ -29,7 +32,7 @@ export default function HomePage() {
       />
       
       <main className="flex w-screen h-screen flex-col items-center justify-center">
-        check if logged in and show popup
+        <SignOutButton />
       </main>
     </>
   );
