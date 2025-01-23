@@ -1,2 +1,2 @@
 Setup posts table and figure out file size limit for uploaded files
-Can also setup s3 
+Update: Created the s3 bucket and the lambda function to return the public media url and the content typ 
