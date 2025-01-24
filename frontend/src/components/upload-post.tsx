@@ -15,6 +15,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
 
 const schema = yup.object().shape({
   caption: yup.string().required("Caption is required"),
@@ -40,7 +42,15 @@ export default function UploadDialog() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: unknown) => console.log(data);
+  const onSubmit = async () => {
+    const data = { caption: "test", tags: ["test"] };
+    if (!media) {
+      toast.error("No media selected");
+      return;
+    } else {
+      console.log(data, media);
+    }
+  };
 
   return (
     <main className="flex w-screen relative h-screen gap-6 items-center justify-center">
@@ -76,6 +86,7 @@ export default function UploadDialog() {
             {/* Footer with Action Buttons */}
             <AlertDialogFooter>
               <AlertDialogCancel
+                className="focus:outline-none"
                 style={{ marginRight: "auto" }}
                 onClick={() => reset()}
               >
