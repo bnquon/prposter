@@ -16,3 +16,11 @@ export const tags: PostTags[] = [
     { id: "yoga", name: "Yoga" },
     { id: "other", name: "Other" },
 ];
+
+export type UploadPostObject = {
+    file: File; 
+    caption: string;
+    tags: string[];
+    user_id: string;
+    file_type: string;
+}

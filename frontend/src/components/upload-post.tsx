@@ -16,20 +16,25 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
+import { uploadPost } from "@/api/posts";
+import { useUser } from "@/hooks/useUser";
 
 const schema = yup.object().shape({
   caption: yup.string().required("Caption is required"),
   tags: yup
     .array()
-    .test(
-      "at-least-one",
-      "At least one tag is required",
-      (value) => value && value.length > 0
-    ),
+    .of(yup.string().required())
+    .min(1, "At least one tag is required")
+    .required("Tags are required"),
 });
 
+type FormData = {
+  caption: string;
+  tags: string[];
+};
+
 export default function UploadDialog() {
+  const { user } = useUser();
   const [media, setMedia] = useState<File | null>(null);
 
   const {
@@ -42,13 +47,30 @@ export default function UploadDialog() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async () => {
-    const data = { caption: "test", tags: ["test"] };
+  const closeDialog = () => {
+    reset();
+  };
+
+  const onSubmit = async (data: FormData) => {
     if (!media) {
       toast.error("No media selected");
       return;
-    } else {
-      console.log(data, media);
+    }
+
+    const formData = new FormData();
+    formData.append("file", media);
+    formData.append("file_type", media.type);
+    formData.append("caption", data.caption);
+    formData.append("tags", JSON.stringify(data.tags));
+    formData.append("user_id", user?.id ?? "");
+
+    try {
+      await uploadPost(formData);
+      toast.success("Post uploaded successfully");
+      closeDialog();
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to upload post");
     }
   };
 
@@ -88,7 +110,7 @@ export default function UploadDialog() {
               <AlertDialogCancel
                 className="focus:outline-none"
                 style={{ marginRight: "auto" }}
-                onClick={() => reset()}
+                onClick={closeDialog}
               >
                 Cancel
               </AlertDialogCancel>

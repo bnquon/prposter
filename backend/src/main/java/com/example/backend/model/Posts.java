@@ -1,9 +1,6 @@
 package com.example.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +10,7 @@ import java.util.UUID;
 public class Posts {
     @Id
     @Column(name = "post_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int post_id;
 
     private UUID user_id;

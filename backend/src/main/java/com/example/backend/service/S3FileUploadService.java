@@ -22,6 +22,7 @@ public class S3FileUploadService {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.addUserMetadata("post_id", String.valueOf(post_id));
         metadata.addUserMetadata("Content-Type", fileType);
+        metadata.setContentType(fileType);
         String key = UUID.randomUUID().toString();
 
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, file.getInputStream(), metadata);

@@ -18,14 +18,14 @@ export default function CreatePostCaption({
   tagError,
   setValue,
 }: CreatePostCaptionProps) {
-  const [selectedTags, setSelectedTags] = useState<PostTags[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const handleTagClick = (tag: PostTags) => {
-    const isSelected = selectedTags.includes(tag);
+    const isSelected = selectedTags.includes(tag.id);
 
     const updatedTags = isSelected
-      ? selectedTags.filter((t) => t !== tag)
-      : [...selectedTags, tag];
+      ? selectedTags.filter((t) => t !== tag.id)
+      : [...selectedTags, tag.id];
 
     setSelectedTags(updatedTags);
     setValue("tags", updatedTags);
@@ -50,8 +50,8 @@ export default function CreatePostCaption({
             style={{
               padding: "5px 10px",
               cursor: "pointer",
-              backgroundColor: selectedTags.includes(tag) ? "#2563eb" : "white",
-              color: selectedTags.includes(tag) ? "white" : "black",
+              backgroundColor: selectedTags.includes(tag.id) ? "#2563eb" : "white",
+              color: selectedTags.includes(tag.id) ? "white" : "black",
             }}
             key={tag.id}
           >
