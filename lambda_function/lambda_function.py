@@ -1,6 +1,5 @@
 import os
 import boto3
-import json
 import psycopg2
 import sys
 
@@ -9,6 +8,8 @@ password = os.environ['DB_PASSWORD']
 host = os.environ['DB_HOST']
 port = os.environ['DB_PORT']
 database = os.environ['DB_NAME']
+
+s3Client = boto3.client('s3')
 
 try:
     conn = psycopg2.connect(
@@ -19,9 +20,37 @@ try:
         database=database
     )
 except Exception as e:
-    print(e)
+    print(f"Database connection error: {e}")
     sys.exit(1)
     
 def lambda_handler(event, context):
-    bucket = event['Records'][0]['s3']['bucket']['name']
-    key = event['Records'][0]['s3']['object']['key']
+    try:
+        sql = """ UPDATE public.posts
+                SET public_url = %s
+                WHERE post_id = %s"""
+        
+        bucket = event['Records'][0]['s3']['bucket']['name']
+        key = event['Records'][0]['s3']['object']['key']
+        response = s3Client.get_object(Bucket=bucket, Key=key)
+
+        post_id = response["Metadata"]["post_id"]
+        post_id = int(post_id)  # Convert to integer
+        
+        mediaUrl = f"https://{bucket}.s3.us-west-2.amazonaws.com/{key}"
+
+        with conn.cursor() as cursor:
+            cursor.execute(sql, (mediaUrl, post_id))
+            conn.commit()
+
+        return {
+            'statusCode': 200,
+            'body': "URL updated successfully"
+        }
+    except Exception as e:
+        print(f"Error: {e}")
+        return {
+            'statusCode': 500,
+            'body': f"Error: {e}"
+        }
+    finally:
+        conn.close()
