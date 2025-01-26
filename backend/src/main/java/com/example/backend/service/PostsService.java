@@ -5,6 +5,8 @@ import com.example.backend.repository.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostsService {
 
@@ -13,5 +15,9 @@ public class PostsService {
 
     public Posts addPostWithoutLink(Posts newPost) {
         return postsRepository.save(newPost);
+    }
+
+    public List<Posts> getAllPosts() {
+        return postsRepository.findAll();
     }
 }

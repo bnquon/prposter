@@ -3,6 +3,8 @@ import boto3
 import psycopg2
 import sys
 
+# additional layer needed, https://medium.com/@bloggeraj392/creating-a-psycopg2-layer-for-aws-lambda-a-step-by-step-guide-a2498c97c11e
+
 user_name = os.environ['DB_USER']
 password = os.environ['DB_PASSWORD']
 host = os.environ['DB_HOST']

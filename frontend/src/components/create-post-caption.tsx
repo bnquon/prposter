@@ -3,33 +3,22 @@ import { Label } from "@radix-ui/react-label";
 import { Textarea } from "./ui/textarea";
 import { Badge } from "./ui/badge";
 import { PostTags, tags } from "../../utils/types";
-import { useState } from "react";
 
 interface CreatePostCaptionProps {
   register: any;
   captionError: any;
   tagError: any;
-  setValue: any;
+  selectedTags: string[];
+  handleTagClick: (tags: PostTags) => void;
 }
 
 export default function CreatePostCaption({
   register,
   captionError,
   tagError,
-  setValue,
+  selectedTags,
+  handleTagClick,
 }: CreatePostCaptionProps) {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  const handleTagClick = (tag: PostTags) => {
-    const isSelected = selectedTags.includes(tag.id);
-
-    const updatedTags = isSelected
-      ? selectedTags.filter((t) => t !== tag.id)
-      : [...selectedTags, tag.id];
-
-    setSelectedTags(updatedTags);
-    setValue("tags", updatedTags);
-  };
 
   return (
     <div className="grid gap-2">

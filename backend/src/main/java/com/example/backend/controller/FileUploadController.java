@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @CrossOrigin(origins = "http://localhost:5173")
 public class FileUploadController {
     @Autowired
@@ -22,6 +22,10 @@ public class FileUploadController {
     @Autowired
     private PostsService postsService;
 
+    @GetMapping
+    public List<Posts> getAllPosts() {
+        return postsService.getAllPosts();
+    }
 
     @PostMapping("/upload")
     public String uploadFile(

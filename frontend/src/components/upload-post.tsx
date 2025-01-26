@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { uploadPost } from "@/api/posts";
 import { useUser } from "@/hooks/useUser";
+import { PostTags } from "utils/types";
 
 const schema = yup.object().shape({
   caption: yup.string().required("Caption is required"),
@@ -35,20 +36,35 @@ type FormData = {
 
 export default function UploadDialog() {
   const { user } = useUser();
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [media, setMedia] = useState<File | null>(null);
+
+  const handleTagClick = (tag: PostTags) => {
+    const isSelected = selectedTags.includes(tag.id);
+
+    const updatedTags = isSelected
+      ? selectedTags.filter((t) => t !== tag.id)
+      : [...selectedTags, tag.id];
+
+    setSelectedTags(updatedTags);
+    setValue("tags", updatedTags);
+  };
 
   const {
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   const closeDialog = () => {
-    reset();
+    setMedia(null);
+    setOpen(false);
+    setSelectedTags([]);
+    setValue("caption", "");
   };
 
   const onSubmit = async (data: FormData) => {
@@ -75,8 +91,8 @@ export default function UploadDialog() {
   };
 
   return (
-    <main className="flex w-screen relative h-screen gap-6 items-center justify-center">
-      <AlertDialog>
+    <main className="flex w-screen relative gap-6 items-center justify-center">
+      <AlertDialog open={open} onOpenChange={setOpen}>
         {/* Trigger Button */}
         <AlertDialogTrigger asChild>
           <Button variant="outline">Create Post</Button>
@@ -100,7 +116,8 @@ export default function UploadDialog() {
             {/* Caption and Tags Section */}
             <CreatePostCaption
               register={register}
-              setValue={setValue}
+              selectedTags={selectedTags}
+              handleTagClick={handleTagClick}
               captionError={errors.caption}
               tagError={errors.tags}
             />

@@ -24,3 +24,12 @@ export type UploadPostObject = {
     user_id: string;
     file_type: string;
 }
+
+export type Post = {
+    post_id: number;
+    user_id: string;
+    public_url: string;
+    caption: string;
+    file_type: string;
+    tags: string[];
+}
