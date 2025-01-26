@@ -28,4 +28,8 @@ public class ProfileService {
         profile.setWeight(newProfileInfo.getWeight());
         return profileRepository.save(profile);
     }
+
+    public Profile getProfileByUserId(UUID user_id) {
+        return profileRepository.findByUUID(user_id);
+    }
 }

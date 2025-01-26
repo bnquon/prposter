@@ -1,1 +1,1 @@
-Added posts table, need to update lambda function
+Update tag badge colors

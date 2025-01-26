@@ -1,3 +1,7 @@
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { weightText, ageText, isImage } from "../../utils/helpers";
+import { PostTagBadge } from "./ui/tag-badge";
+
 interface PostCardProps {
   user_id: string;
   caption: string;
@@ -13,16 +17,34 @@ export default function PostCard({
   tags,
   file_type,
 }: PostCardProps) {
-  console.log(file_type);
+  const { profile } = useUserProfile(user_id);
+
+  console.log(profile);
+
   return (
     <div className="w-[825px] max-h-[425px] p-6 bg-[#F5F5F5] rounded-xl shadow flex box-border gap-4">
-      <div className="w-[250px] h-auto overflow-hidden rounded-xl">
-        <img src={media} alt="media" className="w-full h-full object-cover" />
+      <div className="w-[450px] h-auto overflow-hidden rounded-xl">
+        {isImage(file_type) ? (
+          <img src={media} alt="media" className="object-cover w-full h-full" />
+        ) : (
+          <video src={media} controls className="object-cover w-full h-full" />
+        )}
       </div>
-      <div className="flex flex-col">
-        <div>{user_id} username, weight, age</div>
-        <div>{caption} caption</div>
-        <div>{tags}, change tag to enum</div>
+      <div className="flex flex-col w-full">
+        <div className="flex flex-col">
+          <span className="font-bold text-lg">@{profile?.username}</span>
+          <div className="text-sm text-gray-500">
+            {weightText(profile?.weight)}, {ageText(profile?.age)}
+          </div>
+        </div>
+        <div className="mt-4">
+          {caption} {file_type}
+        </div>
+        <div className="mt-auto ml-auto">
+          {tags.map((tag: string) => (
+            <PostTagBadge key={tag} tag={tag} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -10,3 +10,8 @@ export async function updateProfile(ProfileInfo: Profile) {
     const { data: updateProfile } = await api.patch("/profile", ProfileInfo);
     return updateProfile;
 }
+
+export async function getProfileBio(user_id: string) {
+    const { data: bio } = await api.get(`/profile/bio?user_id=${user_id}`);
+    return bio;
+}

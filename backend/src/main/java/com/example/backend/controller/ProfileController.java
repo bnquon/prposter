@@ -26,4 +26,9 @@ public class ProfileController {
     public Profile updateProfile(@RequestBody Profile newProfileInfo) {
         return profileService.updateProfile(newProfileInfo);
     }
+
+    @GetMapping("/bio")
+    public Profile getProfileByUserId(@RequestParam UUID user_id) {
+        return profileService.getProfileByUserId(user_id);
+    }
 }
