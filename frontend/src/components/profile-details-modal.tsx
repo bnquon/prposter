@@ -13,7 +13,7 @@ import { Input } from "./ui/input";
 import { toast } from "sonner"
 import { Profile } from "utils/types";
 import { updateProfile } from "@/api/profile";
-import { QueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 
 type formValues = {
   username: string;
@@ -30,7 +30,7 @@ export default function ProfileDetailsModal({
   user_id,
   showModal,
 }: ProfileDetailsModalProps) {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const handleSave = async (formData: formValues) => {
     const data: Profile = { ...formData, user_id };
     try {

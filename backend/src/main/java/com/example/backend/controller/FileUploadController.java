@@ -33,11 +33,11 @@ public class FileUploadController {
             @RequestParam("file_type") String fileType,
             @RequestParam("caption") String caption,
             @RequestParam("tags") String tagsJson,
-            @RequestParam("user_id") UUID userId)
-    {
+            @RequestParam("user_id") UUID userId) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            List<String> tags = objectMapper.readValue(tagsJson, new TypeReference<List<String>>() {});
+            List<String> tags = objectMapper.readValue(tagsJson, new TypeReference<List<String>>() {
+            });
             Posts post = new Posts();
             post.setCaption(caption);
             post.setTags(tags);

@@ -91,7 +91,7 @@ export default function UploadDialog() {
   };
 
   return (
-    <main className="flex w-screen relative gap-6 items-center justify-center">
+    <main className="flex relative gap-6 items-center justify-center">
       <AlertDialog open={open} onOpenChange={setOpen}>
         {/* Trigger Button */}
         <AlertDialogTrigger asChild>

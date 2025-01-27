@@ -18,7 +18,7 @@ export const PostTagBadge = ({ tag }: { tag: string }) => {
   }
 
   return (
-    <Badge className={cn("text-white", color)}>
+    <Badge className={cn("text-white px-2 py-1", color)}>
       {tag.charAt(0).toUpperCase() + tag.slice(1)}
     </Badge>
   );
