@@ -9,7 +9,11 @@ import ProfileHeader from "@/components/profile-header";
 import Feed from "@/components/feed";
 
 export default function HomePage() {
-  const { user } = useUser();
+  const { user, loading: userLoading } = useUser();
+
+  if (!user && !userLoading) {
+    window.location.href = "/";
+  }
 
   const { posts, isLoading: postsLoading } = usePosts();
 
@@ -35,7 +39,7 @@ export default function HomePage() {
       <main className="flex w-screen gap-4 h-screen flex-col items-center justify-center">
         <div className="flex flex-col max-h-[1000px] w-[825px] gap-4">
           <ProfileHeader user_id={user?.id ?? ""} />
-          
+
           <Feed posts={posts} />
 
           <UploadDialog />

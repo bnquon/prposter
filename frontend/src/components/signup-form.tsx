@@ -11,6 +11,7 @@ import {
 import { Input } from "./ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../../utils/features/auth";
+import { Dumbbell } from "lucide-react";
 
 type formValues = {
   email: string;
@@ -33,8 +34,14 @@ export const SignupForm = () => {
   return (
     <div className="flex flex-col gap-6">
       <Card>
+        <div className="w-full flex gap-2 items-center justify-center pt-4">
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <Dumbbell className="size-4" />
+          </div>
+          <span className="font-bold">PRPoster</span>
+        </div>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Join PrPoster</CardTitle>
+          <CardTitle className="text-xl">Join PRPoster</CardTitle>
           <CardDescription>Sign up with an email and password</CardDescription>
         </CardHeader>
         <CardContent>
@@ -76,10 +83,6 @@ export const SignupForm = () => {
           </form>
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
     </div>
   );
 };

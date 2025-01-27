@@ -1,17 +1,24 @@
-import { Dumbbell } from 'lucide-react';
-
 import { LoginForm } from "@/components/login-form";
+import { useUser } from "@/hooks/useUser";
 
 export default function LoginPage() {
+
+  const { user } = useUser();
+  if (user) {
+    console.log(user);
+    window.location.href = "/home";
+  }
   return (
     <div className="flex w-screen min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <a href="#" className="flex items-center gap-2 self-center font-medium">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Dumbbell className="size-4" />
-          </div>
-          PrPoster
-        </a>
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute w-full h-full object-cover z-[1]"
+      >
+        <source src="prposter_bg.mp4" type="video/mp4" />
+      </video>
+      <div className="flex w-full max-w-sm flex-col gap-6 z-10">
         <LoginForm />
       </div>
     </div>

@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { uploadPost } from "@/api/posts";
 import { useUser } from "@/hooks/useUser";
 import { PostTags } from "utils/types";
+import { useQueryClient } from "react-query";
 
 const schema = yup.object().shape({
   caption: yup.string().required("Caption is required"),
@@ -35,6 +36,7 @@ type FormData = {
 };
 
 export default function UploadDialog() {
+  const queryClient = useQueryClient();
   const { user } = useUser();
   const [open, setOpen] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -83,9 +85,10 @@ export default function UploadDialog() {
     try {
       await uploadPost(formData);
       toast.success("Post uploaded successfully");
+      await queryClient.invalidateQueries(["posts"]);
       closeDialog();
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
       toast.error("Failed to upload post");
     }
   };
